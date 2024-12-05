@@ -1,0 +1,2 @@
+node.js 16+
+mysql 5.8

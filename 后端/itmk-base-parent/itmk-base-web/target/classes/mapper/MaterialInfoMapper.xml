@@ -1,0 +1,45 @@
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.itmk.web.material_info.mapper.MaterialInfoMapper">
+    <select id="getList" resultType="com.itmk.web.material_info.entity.MaterialInfo">
+        select m.*,mc.category_name from material_info as m
+        inner join material_category as mc on m.category_id = mc.category_id
+        where 1=1
+        <if test="parm.infoName != '' and parm.infoName != null">
+          and  m.info_name like CONCAT('%',#{parm.infoName},'%')
+        </if>
+    </select>
+    <update id="updateStore">
+        <foreach collection="list" item="item" index="index"  separator=";">
+        update material_info
+        <set>
+            store = store + #{item.store},
+        </set>
+        where info_id =#{item.infoId}
+    </foreach>
+    </update>
+    <update id="sendUpdateStore">
+        <foreach collection="list" item="item" index="index"  separator=";">
+        update material_info
+        <set>
+            store = store - #{item.store},
+        </set>
+        where info_id =#{item.infoId}
+    </foreach>
+    </update>
+
+    <select id="moreInfor" resultType="com.itmk.web.home.entity.EchartsItem">
+        select info_name as name,store as value from material_info
+        order by store desc
+        limit 6
+
+    </select>
+
+    <select id="lessInfor" resultType="com.itmk.web.home.entity.EchartsItem">
+        select info_name as name,store as value from material_info
+        order by store asc
+        limit 6
+    </select>
+</mapper>

@@ -1,0 +1,12 @@
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.itmk.web.material_category.mapper.MaterialCategoryMapper">
+    <select id="getTotalCategory" resultType="com.itmk.web.home.entity.EchartsItem">
+    select mc.category_name as name,count(mi.info_id) as value from material_category as mc
+    left join material_info as mi  on mc.category_id = mi.category_id
+    GROUP BY mc.category_id,mc.category_name
+    order by mc.category_name asc
+    </select>
+</mapper>
